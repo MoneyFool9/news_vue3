@@ -9,9 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "pinia": "^2.2.4",
     "pnpm": "^9.12.1",
     "vant": "^4.9.7",
-    "vue": "^3.4.29"
+    "vue": "^3.4.29",
+    "vue-router": "^4.4.5"
   },
   "devDependencies": {
     "@vant/auto-import-resolver": "^1.2.1",

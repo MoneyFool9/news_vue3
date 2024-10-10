@@ -1,17 +1,12 @@
 <template>
     <div>
         <NewsItem 
-            v-if="filteredNews.length"
+            v-if="filteredNews && filteredNews.length"
             v-for="(item, index) of filteredNews"
             :key="index"
             :currentNew="item"
             class="NewsItem"
-            :NewsList="NewsList"
-            :BookmarkNews="BookmarkNews"
-            :addBookmark="addBookmark"
-            :deleteBookmark="deleteBookmark"
             :isBookmark="isBookmark"
-            :addHiddenNew="addHiddenNew"
             :isHiddenNew="isHiddenNew"
         />
     </div>
@@ -20,31 +15,31 @@
 <script setup>
 import NewsItem from './Item.vue';
 import { computed } from 'vue'
+import { storeToRefs } from 'pinia';
+import { useBookmarkStore } from '@/store/useBookmark';
+import { useHiddenNewsStore } from '@/store/useHiddenNews';
 
-const props = defineProps([
-    "NewsList",
-    "BookmarkNews",
-    "addBookmark",
-    "deleteBookmark",
-    "HiddenNews",
-    "addHiddenNew"
-])
+const { BookmarkNews } = storeToRefs(useBookmarkStore())
+const { HiddenNews } = storeToRefs(useHiddenNewsStore())
+const props = defineProps(["NewsData"])
+
 
 function isBookmark(currentNew){
-    return props.BookmarkNews.some(
+    return BookmarkNews.value.some(
         (current)=>current.title === currentNew.title
     )
 }
 function isHiddenNew(currentNew){
-    if(props.HiddenNews){
-        return props.HiddenNews.some(
+    if(HiddenNews){
+        return HiddenNews.value.some(
         (current)=>current.title === currentNew.title
     )
     }
    
 }
 const filteredNews = computed(()=>{
-    return props.NewsList.filter((current)=> !isHiddenNew(current))
+        return props.NewsData && props.NewsData.filter((current)=> !isHiddenNew(current))
+    
 })
 
 </script>

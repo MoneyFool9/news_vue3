@@ -1,27 +1,15 @@
 <template>
     <div>
-        <NewsList 
-            :NewsList="BookmarkNews"
-            :BookmarkNews="BookmarkNews"
-            :deleteBookmark="deleteBookmark"
-            :HiddenNews="HiddenNews"
-            :addHiddenNew="addHiddenNew"
-        />
+        <NewsList :NewsData="BookmarkNews"/>
     </div>
 </template>
 
 <script setup>
 import NewsList from '@/components/NewsList/NewsList.vue';
+import { useBookmarkStore } from '@/store/useBookmark';
+import { storeToRefs } from 'pinia';
 
-defineProps([
-    "BookmarkNews",
-    "deleteBookmark",
-    "HiddenNews",
-    "addHiddenNew"
-])
-
-
-
+const { BookmarkNews } = storeToRefs(useBookmarkStore())
 </script>
 
 <style lang="scss" scoped>

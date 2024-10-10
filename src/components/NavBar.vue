@@ -4,17 +4,20 @@
         :left-text="leftText"
         right-text="刷新"
         @click-right="refresh"
-        @click-left="toggleBookmark"
+        @click-left="toBookmark"
     />
 </template>
 
 <script setup>
 import { computed } from 'vue'
+import { useBookmarkStore } from '@/store/useBookmark';
+import { storeToRefs } from 'pinia';
 
-const props = defineProps(["toggleBookmark", "showBookmark"])
+const { showBookmark } = storeToRefs(useBookmarkStore())
+const { toBookmark } = useBookmarkStore()
 
 const leftText = computed(()=>{
-    return props.showBookmark ? '返回' : '收藏';
+    return showBookmark.value ? '返回' : '收藏';
 })
 const refresh = () => {
     window.location.reload();

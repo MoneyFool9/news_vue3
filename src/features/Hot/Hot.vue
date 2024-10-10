@@ -1,36 +1,25 @@
 <template>
     <div>
-        <Loading v-if="!HotNewsList.length"/>
-        <NewsList v-else
-            :NewsList="HotNewsList"
-            :BookmarkNews="BookmarkNews"
-            :addBookmark="addBookmark"
-            :deleteBookmark="deleteBookmark"
-            :HiddenNews="HiddenNews"
-            :addHiddenNew="addHiddenNew"
-        />
+        <Loading v-if="!NewsListData.length"/>
+        <NewsList v-else :NewsData="NewsListData"/>
     </div>
 </template>
 
 <script setup>
-import Loading from '@/components/Loading/Loading.vue';
+import Loading from '@/components/Loading.vue';
 import NewsList from '@/components/NewsList/NewsList.vue';
 import { getHotNews } from '@/services';
 import { onMounted, ref } from 'vue'
 
-const HotNewsList = ref([])
+import { useGlobalStore } from '@/store/useGlobal';
+import { storeToRefs } from 'pinia';
 
-defineProps([
-    "BookmarkNews",
-    "addBookmark",
-    "deleteBookmark",
-    "HiddenNews",
-    "addHiddenNew"
-])
+const { NewsListData } = storeToRefs(useGlobalStore())
 
 onMounted(async () => {
+    NewsListData.value = []
     const res = await getHotNews();
-    HotNewsList.value = res.data;
+    NewsListData.value = res.data;
 })
 
 </script>

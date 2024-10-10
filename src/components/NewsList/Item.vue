@@ -26,15 +26,17 @@
 </template>
 
 <script setup>
+import { useBookmarkStore } from '@/store/useBookmark';
+import { useHiddenNewsStore } from '@/store/useHiddenNews';
+
 const props = defineProps([
     "currentNew",
-    "BookmarkNews",
-    "addBookmark",
-    "deleteBookmark",
     "isBookmark",
-    "addHiddenNew",
     "isHiddenNew"
 ])
+
+const { addBookmark, deleteBookmark } = useBookmarkStore()
+const { addHiddenNew } = useHiddenNewsStore()
 
 </script>
 
